@@ -52,5 +52,7 @@ AutoRegister = conf.registerPlugin('AutoRegister')
 # conf.registerGlobalValue(AutoRegister, 'someConfigVariableName',
 #     registry.Boolean(False, _("""Help for someConfigVariableName.""")))
 
+conf.registerGlobalValue(AutoRegister, 'logChannel',
+    registry.String("", """log accounts creations"""))
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

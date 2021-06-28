@@ -27,8 +27,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 ###
 
-from supybot import ircutils, callbacks, ircdb
-
+from supybot import ircutils, callbacks, ircdb, ircmsgs
+from supybot.commands import *
 try:
     from supybot.i18n import PluginInternationalization
     _ = PluginInternationalization('AutoRegister')
@@ -86,6 +86,8 @@ class AutoRegister(callbacks.Plugin):
         user.addNick(irc.network, account)
         ircdb.users.setUser(user)
         irc.reply(_('You are now authenticated as %s') % account)
+        if self.registryValue('logChannel') in irc.state.channels:
+            irc.queueMsg(ircmsgs.privmsg(self.registryValue('logChannel'),'[AR] %s created %s (hello)' % (account, msg.prefix)))
     hello = wrap(hello)
 
     def fregister(self, irc, msg, args, account, hostmask, channels=None):
@@ -108,6 +110,8 @@ class AutoRegister(callbacks.Plugin):
                 user.addCapability(capability)
                 ircdb.users.setUser(user)
         irc.replySuccess()
+        if self.registryValue('logChannel') in irc.state.channels:
+            irc.queueMsg(ircmsgs.privmsg(self.registryValue('logChannel'),'[AR] %s created %s (by %s)' % (account,hostmask,msg.nick)))
     fregister = wrap(fregister, ['owner', 'nick', 'hostmask', optional('channels')])
 
     callBefore = ['ChanTracker']
@@ -125,8 +129,7 @@ class AutoRegister(callbacks.Plugin):
         modes = ircutils.separateModes(msg.args[1:])
         for (mode, value) in modes:
             m = mode[1:]
-            if m in ('b', 'q'):
-                self.log.info('%s did op actions in %s' % (msg.prefix, channel))
+            if m in 'bqrmz':
                 user = None
                 try:
                     user = ircdb.users.getUser(msg.prefix)
@@ -154,6 +157,8 @@ class AutoRegister(callbacks.Plugin):
                 user.addNick(irc.network, account)
                 user.addCapability(capability)
                 ircdb.users.setUser(user)
+                if self.registryValue('logChannel') in irc.state.channels:
+                    irc.queueMsg(ircmsgs.privmsg(self.registryValue('logChannel'),'[AR] %s created %s (%s)' % (account, msg.prefix, channel)))
 
     def _auth(self, irc, prefix, account):
         user = ircdb.users.getUserFromNick(irc.network, account)
