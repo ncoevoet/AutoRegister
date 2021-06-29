@@ -50,7 +50,6 @@ class AutoRegister(callbacks.Plugin):
         """takes no arguments
 
         auto identify you based on your services account"""
-        account = None
         if 'account' not in msg.server_tags:
             irc.error(_('You are not logged in to services, '
                         'see /msg NickServ help identify or register'), Raise=True)
@@ -122,7 +121,7 @@ class AutoRegister(callbacks.Plugin):
             return
         account = msg.server_tags['account']
         channel = msg.args[0]
-        if not channel:
+        if not irc.isChannel(channel):
             return
         capability = '%s,op' % channel
         flag = ircdb.makeChannelCapability(channel, 'op')
@@ -210,3 +209,6 @@ class AutoRegister(callbacks.Plugin):
 
 
 Class = AutoRegister
+
+
+# vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

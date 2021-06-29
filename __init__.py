@@ -25,11 +25,12 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
 ###
 
 """
-AutoRegister: Auto Register or identify users
+The main purpose of this plugin is to automatically create accounts on the bot based on network services accounts.
+Grants them #channel,op capability when they are doing some operator actions before ChanTracker is called.
+Also provides a few utilities to register accounts and manage op capabilities.
 """
 
 import sys

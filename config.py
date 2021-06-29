@@ -48,11 +48,9 @@ def configure(advanced):
 
 
 AutoRegister = conf.registerPlugin('AutoRegister')
-# This is where your configuration variables (if any) should go.  For example:
-# conf.registerGlobalValue(AutoRegister, 'someConfigVariableName',
-#     registry.Boolean(False, _("""Help for someConfigVariableName.""")))
 
 conf.registerGlobalValue(AutoRegister, 'logChannel',
-    registry.String("", """log accounts creations"""))
+    registry.String("", _("""log account creations""")))
+
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
