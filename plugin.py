@@ -128,7 +128,7 @@ class AutoRegister(callbacks.Plugin):
         modes = ircutils.separateModes(msg.args[1:])
         for (mode, value) in modes:
             m = mode[1:]
-            if m in 'bqrmz':
+            if m in 'bqeIrmztsi':
                 user = None
                 try:
                     user = ircdb.users.getUser(msg.prefix)
